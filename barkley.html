@@ -6,7 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
         }
     </style>
 </head>
@@ -29,10 +29,10 @@
                     <div class="table table-sm">
                         <div class="row">
                             <div class="col-md text-center border">
-                                <p><strong>Fun Run (3 Loop) Cutoff</strong><br><span id="fun_run_time"></span></p>
+                                <p><strong>Leader Loop 5 Time</strong><br><span id="leader_time"></span></p>
                             </div>
                             <div class="col-md text-center border">
-                                <p><strong>Fun Run Cutoff (Your Time)</strong><br><span id="fun_run_local"></span></p>
+                                <p><strong>Jasmin Loop 5 Time</strong><br><span id="jasmin_time"></span></p>
                             </div> 
                             <div class="col-md text-center border">
                                 <p><strong>Race End (Your Time)</strong><br><span id="race_end_local"></span></p>
@@ -91,20 +91,29 @@
             document.getElementById("remaining_time").innerHTML = hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
         }, 1000);
 
-        // Fun Run time = start time + 40 hours
-        var fun_run_time = start_time + (40 * 60 * 60 * 1000);
-        var z = setInterval(function() {
+        // Leader Loop 5 Time
+        var leader_time = new Date("2024-03-22T03:23:32-04:00").getTime();
+        // Count time since leader started loop 5
+        var a = setInterval(function() {
             var now = new Date().getTime();
-            var distance = fun_run_time - now;
+            var distance = now - leader_time;
             var hours = Math.floor((distance % (1000 * 60 * 60 * 60)) / (1000 * 60 * 60));
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            document.getElementById("fun_run_time").innerHTML = hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
+            document.getElementById("leader_time").innerHTML = hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
         }, 1000);
 
-        // get local browser time zone and convert the calculated fun run time to local time
-        var fun_run_local = new Date(fun_run_time).toLocaleString("en-US", {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone});
-        document.getElementById("fun_run_local").innerHTML = formatTime(fun_run_local);
+        // Jasmin Loop 5 Time and display time since Jasmin started loop 5
+        var jasmin_time = new Date("2024-03-22T03:58:00-04:00").getTime();
+        var b = setInterval(function() {
+            var now = new Date().getTime();
+            var distance = now - jasmin_time;
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 60)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById("jasmin_time").innerHTML = hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
+        }, 1000);
+
 
         // get local browser time zone and convert the calculated end time to local time
         var race_end_local = new Date(end_time).toLocaleString("en-US", {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone});
